@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EVE Online Skill Injector Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h2 id="header">Eve Online Skill Injector Calculator</h2>
+      <label for="currentSP" class="label">Current SP</label>
+      <input type="text" class="input" id="currentSP" />
+
+      <label for="goalSP" class="label">Goal SP</label>
+      <input type="text" class="input" id="goalSP" />
+      <button id="generateTotal">Generate</button>
+    </div>
+    <div class="showResult hidden">
+      <button class="closeResult">&times</button>
+      <div class="displayMessages">
+        <p class="displayInjectorNeeds"></p>
+        <p class="displayIskNeeds"></p>
+        <p class="displayMessage"></p>
+      </div>
+    </div>
+  </body>
+</html>
