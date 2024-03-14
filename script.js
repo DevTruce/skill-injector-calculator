@@ -24,23 +24,22 @@ const DIMINISHING_RETURNS = {
 };
 
 //// Helper Functions
+const formatNumber = function (number) {
+  return number.toLocaleString();
+};
+
 const updateResultDimensions = function (element1, element2) {
-  // Get the computed width and height of element1
+  // get computed width and height of element1
   const element1Width = window.getComputedStyle(element1).width;
   const element1Height = window.getComputedStyle(element1).height;
 
-  // Apply the same dimensions to element2
+  // apply the same dimensions to element2
   element2.style.width = element1Width;
   element2.style.height = element1Height;
 };
 const runUpdateDimensions = () => updateResultDimensions(container, showResult);
 runUpdateDimensions();
 
-const formatNumber = function (number) {
-  return number.toLocaleString();
-};
-
-// Reusable Functions
 const showInvalidPopUpWindow = function (header, errorMessage) {
   // set elements data
   displayMessagesHeader.innerHTML = header;
@@ -114,44 +113,36 @@ const validateInput = function (goalSP, currentSP) {
 
 //// Calculate Skill Injectors and Costs From Current SP to Goal SP
 const skillInjectorCalculator = function (currentSP, goalSP) {
-  const originalSP = Number(currentSP);
-  let skillInjectorsNeeded = 0;
+  let skillInjectorsNeeded = 0; // counter
+
+  // Function to calc skill points within a specified range
+  const calculateRange = (range, injected) => {
+    while (currentSP < goalSP && currentSP < range) {
+      currentSP += injected;
+      skillInjectorsNeeded++;
+    }
+  };
 
   // Validate user inputs
   if (!validateInput(goalSP, currentSP)) {
     return;
   }
 
-  // Calculate currentSP to goalSP
-  else if (goalSP > currentSP) {
-    // calculate if currentSP is less than 5m
-    while (currentSP < goalSP && currentSP < DIMINISHING_RETURNS.T1.spRange) {
-      currentSP += DIMINISHING_RETURNS.T1.spInjected;
-      skillInjectorsNeeded++;
-    }
+  // Calc skill points within a specified range
+  calculateRange(
+    DIMINISHING_RETURNS.T1.spRange,
+    DIMINISHING_RETURNS.T1.spInjected
+  );
+  calculateRange(
+    DIMINISHING_RETURNS.T2.spRange[1],
+    DIMINISHING_RETURNS.T2.spInjected
+  );
+  calculateRange(
+    DIMINISHING_RETURNS.T3.spRange[1],
+    DIMINISHING_RETURNS.T3.spInjected
+  );
 
-    // calculation if currentSP is between 5m and 50m
-    while (
-      currentSP < goalSP &&
-      currentSP >= DIMINISHING_RETURNS.T2.spRange[0] &&
-      currentSP < DIMINISHING_RETURNS.T2.spRange[1]
-    ) {
-      currentSP += DIMINISHING_RETURNS.T2.spInjected;
-      skillInjectorsNeeded++;
-    }
-
-    // calculation if currentSP is between 50m and 80m
-    while (
-      currentSP < goalSP &&
-      currentSP >= DIMINISHING_RETURNS.T3.spRange[0] &&
-      currentSP < DIMINISHING_RETURNS.T3.spRange[1]
-    ) {
-      currentSP += DIMINISHING_RETURNS.T3.spInjected;
-      skillInjectorsNeeded++;
-    }
-  }
-
-  // calculation if currentSP is greater than 80M
+  // Calc skill points in T4 range (80M+)
   if (currentSP >= DIMINISHING_RETURNS.T4.spRange) {
     while (currentSP < goalSP) {
       currentSP += DIMINISHING_RETURNS.T4.spInjected;
@@ -171,8 +162,6 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
     `Aprx ISK Cost: <span class="cta";>${formatNumber(iskCost)}</span>`,
     `New Total SP: <span class="cta";>${formatNumber(currentSP)}</span>`
   );
-
-  console.log(`${currentSP}, ${originalSP}`);
 };
 
 //// Event Listeners
