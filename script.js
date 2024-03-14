@@ -80,6 +80,7 @@ const hidePopUpWindow = function () {
 };
 
 const userInputReset = function () {
+  // reset input fields
   userCurrentSP.value = ``;
   userGoalSP.value = ``;
 };
