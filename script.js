@@ -2,16 +2,20 @@
 
 //// DOM Elements
 const container = document.querySelector(".container");
-const generateTotalButton = document.getElementById("generateTotal");
+const generateTotalButton = document.querySelector(".generateTotal");
+const userGoalSP = document.querySelector("#goalSP");
+const userCurrentSP = document.querySelector("#currentSP");
 const showResult = document.querySelector(".showResult");
 const closeResult = document.querySelector(".closeResult");
-const displayInjectorNeeds = document.getElementById("displayInjectorNeeds");
-const displayIskNeeds = document.getElementById("displayIskNeeds");
-const displayMessage = document.getElementById("displayMessage");
+const displayMessages = document.querySelector(".displayMessages");
+const displayInjectorNeeds = document.querySelector(".displayInjectorNeeds");
+const displayIskNeeds = document.querySelector(".displayIskNeeds");
+const displayMessage = document.querySelector(".displayMessage");
+const displayMessagesHeader = document.querySelector(".displayMessagesHeader");
 
 //// Preset Variables
 const SKILL_POINT_MAX = 425000000;
-const SKILL_INJECTOR_PRICE = 890000000;
+const SKILL_INJECTOR_PRICE = 890000000; // use eve api to get price?
 const DIMINISHING_RETURNS = {
   T1: { spRange: 5000000, spInjected: 500000 }, // 5M SP-
   T2: { spRange: [5000000, 50000000], spInjected: 400000 }, // 5M - 50M SP
@@ -30,20 +34,68 @@ const updateResultDimensions = function (element1, element2) {
   element2.style.height = element1Height;
 };
 const runUpdateDimensions = () => updateResultDimensions(container, showResult);
-runUpdateDimensions(); // Initial run
-window.addEventListener("resize", runUpdateDimensions);
+runUpdateDimensions();
 
 const formatNumber = function (number) {
   return number.toLocaleString();
 };
 
+// Reusable Functions
+const showPopUpWindow = function (header, injectorNeeds, iskNeeds, message) {
+  // set elements data
+  displayMessagesHeader.innerHTML = header;
+  displayInjectorNeeds.innerHTML = injectorNeeds;
+  displayIskNeeds.innerHTML = iskNeeds;
+  displayMessage.innerHTML = message;
+
+  // show window
+  showResult.classList.remove("fade-out");
+  showResult.classList.remove("hidden");
+  showResult.classList.add("fade-in");
+};
+
+const hidePopUpWindow = function () {
+  // reset elements data
+  displayMessagesHeader.innerHTML = ``;
+  displayInjectorNeeds.innerHTML = ``;
+  displayIskNeeds.innerHTML = ``;
+  displayMessage.innerHTML = ``;
+
+  // hide window
+  showResult.classList.remove("fade-in");
+  showResult.classList.add("fade-out");
+  setTimeout(function () {
+    showResult.classList.add("hidden");
+  }, 500);
+};
+
+const userInputReset = function () {
+  userCurrentSP.value = ``;
+  userGoalSP.value = ``;
+};
+
 //// Calculate Skill Injectors and Costs From Current SP to Goal SP
 const skillInjectorCalculator = function (currentSP, goalSP) {
+  const originalSP = Number(currentSP);
   let skillInjectorsNeeded = 0;
 
-  // Check if The Users Inputs are Valid
-  if (goalSP < currentSP || goalSP === currentSP || goalSP > SKILL_POINT_MAX) {
-    console.log("Invalid Inputs");
+  // Validate user inputs
+  if (goalSP < currentSP || goalSP === currentSP) {
+    showPopUpWindow(
+      `Invalid Input`,
+      ``,
+      ``,
+      `Goal SP must be greater than Current SP`
+    );
+    return;
+  } else if (goalSP > SKILL_POINT_MAX || currentSP > SKILL_POINT_MAX) {
+    showPopUpWindow(
+      `Invalid Input: MAX SP`,
+      `Max Skill Points = ${formatNumber(SKILL_POINT_MAX)}`
+    );
+    return;
+  } else if (isNaN(goalSP) || isNaN(currentSP)) {
+    showPopUpWindow(`Invalid Input: NaN`, `Please Enter a Number`);
     return;
   }
 
@@ -55,7 +107,7 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
       skillInjectorsNeeded++;
     }
 
-    // calculate if currentSP is between 5m and 50m
+    // calculation if currentSP is between 5m and 50m
     while (
       currentSP < goalSP &&
       currentSP >= DIMINISHING_RETURNS.T2.spRange[0] &&
@@ -65,7 +117,7 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
       skillInjectorsNeeded++;
     }
 
-    // calculate if currentSP is between 50m and 80m
+    // calculation if currentSP is between 50m and 80m
     while (
       currentSP < goalSP &&
       currentSP >= DIMINISHING_RETURNS.T3.spRange[0] &&
@@ -76,7 +128,7 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
     }
   }
 
-  // calculate if currentSP is greater than 80M
+  // calculation if currentSP is greater than 80M
   if (currentSP >= DIMINISHING_RETURNS.T4.spRange) {
     while (currentSP < goalSP) {
       currentSP += DIMINISHING_RETURNS.T4.spInjected;
@@ -84,41 +136,35 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
     }
   }
 
-  // Calculate ISK Cost
+  // Calculate isk costs
   const iskCost = skillInjectorsNeeded * SKILL_INJECTOR_PRICE;
 
-  // Display Results
-  showResult.classList.remove("fade-out");
-  showResult.classList.remove("hidden");
-  showResult.classList.add("fade-in");
-
-  displayInjectorNeeds.innerHTML = `Large Skill Injectors: <span class="cta";>${formatNumber(
-    skillInjectorsNeeded
-  )}</span>`;
-
-  displayIskNeeds.innerHTML = `Aprx ISK Cost: <span class="cta";>${formatNumber(
-    iskCost
-  )}</span>`;
-
-  displayMessage.innerHTML = `New Total SP: <span class="cta";>${formatNumber(
-    currentSP
-  )}</span>`;
+  // Display results
+  showPopUpWindow(
+    `${formatNumber(originalSP)} SP to ${formatNumber(goalSP)} SP`,
+    `Large Skill Injectors: <span class="cta";>${formatNumber(
+      skillInjectorsNeeded
+    )}</span>`,
+    `Aprx ISK Cost: <span class="cta";>${formatNumber(iskCost)}</span>`,
+    `New Total SP: <span class="cta";>${formatNumber(currentSP)}</span>`
+  );
 };
 
 //// Event Listeners
+
+// Automatically Update Result Dimensions on Window Resize
+window.addEventListener("resize", runUpdateDimensions);
+
 // Execute Skill Injector Calculator on Button Click
 generateTotalButton.addEventListener("click", function () {
-  const userCurrentSP = parseFloat(document.getElementById("currentSP").value);
-  const userGoalSP = parseFloat(document.getElementById("goalSP").value);
+  const userCurrentSP_data = parseFloat(userCurrentSP.value);
+  const userGoalSP_data = parseFloat(userGoalSP.value);
 
-  skillInjectorCalculator(userCurrentSP, userGoalSP);
+  skillInjectorCalculator(userCurrentSP_data, userGoalSP_data);
+  userInputReset();
 });
 
 // Reset & Close Result Window
 closeResult.addEventListener("click", function () {
-  showResult.classList.remove("fade-in");
-  showResult.classList.add("fade-out");
-  setTimeout(function () {
-    showResult.classList.add("hidden");
-  }, 500);
+  hidePopUpWindow();
 });
