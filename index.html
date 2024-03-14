@@ -8,21 +8,27 @@
     <script defer src="script.js"></script>
   </head>
   <body>
+    <!-- Calculator Form -->
     <div class="container">
       <h2 id="header">Eve Online Skill Injector Calculator</h2>
+
       <label for="currentSP" class="label">Current SP</label>
       <input type="text" class="input" id="currentSP" />
 
       <label for="goalSP" class="label">Goal SP</label>
       <input type="text" class="input" id="goalSP" />
+
       <button id="generateTotal">Generate</button>
     </div>
+
+    <!-- Result Pop Up Window -->
     <div class="showResult hidden">
       <button class="closeResult">&times</button>
+
       <div class="displayMessages">
-        <p class="displayInjectorNeeds"></p>
-        <p class="displayIskNeeds"></p>
-        <p class="displayMessage"></p>
+        <p id="displayInjectorNeeds"></p>
+        <p id="displayIskNeeds"></p>
+        <p id="displayMessage"></p>
       </div>
     </div>
   </body>

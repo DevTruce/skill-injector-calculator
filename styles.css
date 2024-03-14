@@ -1,0 +1,161 @@
+/* #### RESET #### */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* #### BASE #### */
+:root {
+  /* colors */
+  --primaryColor: #202225;
+  --secondaryColor: #eeeee4;
+  --tertiaryColor: #ffbf00;
+
+  --dark1: #292b2f;
+  --dark2: #2f3136;
+  --dark3: #40444b;
+}
+body {
+  min-height: 100vh;
+  padding: 0 1rem;
+  background-color: var(--primaryColor);
+  color: var(--secondaryColor);
+
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+
+  font-family: "Madimi One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* #### STYLES #### */
+.container {
+  box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.15);
+  background-color: var(--dark2);
+  border-radius: 0.5rem;
+  padding: 2rem 3rem;
+
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#header {
+  margin-bottom: 2rem;
+}
+
+.label {
+  padding: 0 0 0.5rem 0;
+}
+.label:last-of-type {
+  text-align: right;
+}
+
+.input {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  outline: none;
+  border: none;
+}
+.input:focus {
+  /* outline-color: var(--tertiaryColor); */
+  outline: solid 3px var(--tertiaryColor);
+  border-color: var(--tertiaryColor);
+}
+
+#generateTotal {
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--secondaryColor);
+  width: 5rem;
+  height: 2rem;
+  margin: 0 auto;
+
+  margin-bottom: 2rem;
+}
+#generateTotal:hover,
+#generateTotal:focus {
+  background-color: var(--tertiaryColor);
+  cursor: pointer;
+  scale: 1.1;
+}
+
+.showResult {
+  background-color: var(--primaryColor);
+  border-radius: 0.5rem;
+  text-align: left;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* height: 40%; */
+  /* width: max-content; */
+
+  display: flex;
+  flex-direction: column;
+}
+
+.closeResult {
+  border: none;
+  border-radius: 0.5rem;
+  background: none;
+  width: 2rem;
+  height: 1rem;
+  font-size: 1.5rem;
+  align-self: flex-end;
+  text-align: center;
+  color: var(--secondaryColor);
+  margin-bottom: 1rem;
+}
+.closeResult:hover {
+  color: var(--tertiaryColor);
+  cursor: pointer;
+  scale: 1.1;
+}
+
+.displayMessages {
+  margin: auto;
+  font-weight: 600;
+  padding: 0 3rem 2rem 3rem;
+}
+
+.hidden {
+  display: none;
+}
+
+/* #### ANIMATIONS #### */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 2.5s ease-in-out forwards;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-out {
+  animation: fadeOut 2.5s ease-out forwards;
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
