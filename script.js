@@ -42,6 +42,7 @@ const formatNumber = function (number) {
 
 // Reusable Functions
 const showInvalidPopUpWindow = function (header, errorMessage) {
+  // set elements data
   displayMessagesHeader.innerHTML = header;
   displayMessage.innerHTML = errorMessage;
 
@@ -164,7 +165,8 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
 window.addEventListener("resize", runUpdateDimensions);
 
 // Execute Skill Injector Calculator on Button Click
-generateTotalButton.addEventListener("click", function () {
+generateTotalButton.addEventListener("click", function (e) {
+  e.stopPropagation(); // Stop the click event from propagating to the document
   const userCurrentSP_data = parseFloat(userCurrentSP.value);
   const userGoalSP_data = parseFloat(userGoalSP.value);
 
@@ -175,4 +177,18 @@ generateTotalButton.addEventListener("click", function () {
 // Reset & Close Result Window
 closeResult.addEventListener("click", function () {
   hidePopUpWindow();
+});
+
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" && !showResult.classList.contains("hidden")) {
+    hidePopUpWindow();
+  }
+});
+
+document.addEventListener("click", function (event) {
+  const isClickInsideTarget = showResult.contains(event.target);
+
+  if (!isClickInsideTarget && !showResult.classList.contains("hidden")) {
+    hidePopUpWindow();
+  }
 });
