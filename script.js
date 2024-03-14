@@ -86,26 +86,39 @@ const userInputReset = function () {
   userGoalSP.value = ``;
 };
 
+const validationRules = [
+  {
+    condition: (goalSP, currentSP) => goalSP <= currentSP,
+    errorMessage: "Goal SP must be greater than Current SP",
+  },
+  {
+    condition: (goalSP, currentSP) =>
+      goalSP > SKILL_POINT_MAX || currentSP > SKILL_POINT_MAX,
+    errorMessage: `Max Skill Points = ${formatNumber(SKILL_POINT_MAX)}`,
+  },
+  {
+    condition: (goalSP, currentSP) => isNaN(goalSP) || isNaN(currentSP),
+    errorMessage: "Please Enter a Number",
+  },
+];
+
+const validateInput = function (goalSP, currentSP) {
+  for (const rule of validationRules) {
+    if (rule.condition(goalSP, currentSP)) {
+      showInvalidPopUpWindow("Invalid Input", rule.errorMessage);
+      return false; // Validation failed
+    }
+  }
+  return true; // Validation passed
+};
+
 //// Calculate Skill Injectors and Costs From Current SP to Goal SP
 const skillInjectorCalculator = function (currentSP, goalSP) {
   const originalSP = Number(currentSP);
   let skillInjectorsNeeded = 0;
 
   // Validate user inputs
-  if (goalSP < currentSP || goalSP === currentSP) {
-    showInvalidPopUpWindow(
-      `Invalid Input: Goal SP`,
-      `Goal SP must be greater than Current SP`
-    );
-    return;
-  } else if (goalSP > SKILL_POINT_MAX || currentSP > SKILL_POINT_MAX) {
-    showInvalidPopUpWindow(
-      `Invalid Input: MAX SP`,
-      `Max Skill Points = ${formatNumber(SKILL_POINT_MAX)}`
-    );
-    return;
-  } else if (isNaN(goalSP) || isNaN(currentSP)) {
-    showInvalidPopUpWindow(`Invalid Input: NaN`, `Please Enter a Number`);
+  if (!validateInput(goalSP, currentSP)) {
     return;
   }
 
@@ -158,6 +171,8 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
     `Aprx ISK Cost: <span class="cta";>${formatNumber(iskCost)}</span>`,
     `New Total SP: <span class="cta";>${formatNumber(currentSP)}</span>`
   );
+
+  console.log(`${currentSP}, ${originalSP}`);
 };
 
 //// Event Listeners
