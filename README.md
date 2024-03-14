@@ -1,2 +1,3 @@
-# skill-injector-calculator
-EVE Online Skill Injector Calculator 
+# EVE Online Skill Injector Calculator
+
+Live Site: https://devtruce.github.io/skill-injector-calculator/
