@@ -64,6 +64,10 @@ body {
   text-align: right;
 }
 
+input {
+  touch-action: manipulation;
+}
+
 .input {
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
