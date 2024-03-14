@@ -64,10 +64,6 @@ body {
   text-align: right;
 }
 
-input {
-  touch-action: manipulation;
-}
-
 .input {
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
@@ -88,6 +84,7 @@ input {
   width: 5rem;
   height: 2rem;
   margin: 0 auto;
+  color: var(--primaryColor);
 
   margin-bottom: 2rem;
 }
