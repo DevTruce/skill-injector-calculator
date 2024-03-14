@@ -41,6 +41,16 @@ const formatNumber = function (number) {
 };
 
 // Reusable Functions
+const showInvalidPopUpWindow = function (header, errorMessage) {
+  displayMessagesHeader.innerHTML = header;
+  displayMessage.innerHTML = errorMessage;
+
+  // show window
+  showResult.classList.remove("fade-out");
+  showResult.classList.remove("hidden");
+  showResult.classList.add("fade-in");
+};
+
 const showPopUpWindow = function (header, injectorNeeds, iskNeeds, message) {
   // set elements data
   displayMessagesHeader.innerHTML = header;
@@ -81,21 +91,19 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
 
   // Validate user inputs
   if (goalSP < currentSP || goalSP === currentSP) {
-    showPopUpWindow(
-      `Invalid Input`,
-      ``,
-      ``,
+    showInvalidPopUpWindow(
+      `Invalid Input: Goal SP`,
       `Goal SP must be greater than Current SP`
     );
     return;
   } else if (goalSP > SKILL_POINT_MAX || currentSP > SKILL_POINT_MAX) {
-    showPopUpWindow(
+    showInvalidPopUpWindow(
       `Invalid Input: MAX SP`,
       `Max Skill Points = ${formatNumber(SKILL_POINT_MAX)}`
     );
     return;
   } else if (isNaN(goalSP) || isNaN(currentSP)) {
-    showPopUpWindow(`Invalid Input: NaN`, `Please Enter a Number`);
+    showInvalidPopUpWindow(`Invalid Input: NaN`, `Please Enter a Number`);
     return;
   }
 
@@ -151,7 +159,6 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
 };
 
 //// Event Listeners
-
 // Automatically Update Result Dimensions on Window Resize
 window.addEventListener("resize", runUpdateDimensions);
 
