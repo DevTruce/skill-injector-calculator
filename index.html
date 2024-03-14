@@ -13,23 +13,32 @@
       <h2 class="header">Eve Online Skill Injector Calculator</h2>
 
       <label for="currentSP" class="label">Current SP</label>
-      <input type="text" class="input" id="currentSP" />
+      <input
+        type="text"
+        class="input"
+        id="currentSP"
+        placeholder="Current Skill Point"
+      />
 
       <label for="goalSP" class="label">Goal SP</label>
-      <input type="text" class="input" id="goalSP" />
+      <input
+        type="text"
+        class="input"
+        id="goalSP"
+        placeholder="Goal Skill Points"
+      />
 
-      <button id="generateTotal">Generate</button>
+      <button class="generateTotal">Generate</button>
     </div>
 
     <!-- Result Pop Up Window -->
     <div class="showResult hidden">
       <button class="closeResult">&times</button>
       <div class="displayMessages">
-        <h2 class="cta">Results Generated!</h2>
-
-        <p id="displayInjectorNeeds"></p>
-        <p id="displayIskNeeds"></p>
-        <p id="displayMessage"></p>
+        <h2 class="displayMessagesHeader"></h2>
+        <p class="displayInjectorNeeds"></p>
+        <p class="displayIskNeeds"></p>
+        <p class="displayMessage"></p>
       </div>
     </div>
   </body>
