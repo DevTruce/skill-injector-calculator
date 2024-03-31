@@ -21,8 +21,6 @@
   <p align="center">
     Calculate the ISK cost and amount of skill injectors needed to go from current skill points to goal skill points.
     <br />
-    <a href="https://github.com/DevTruce/skill-injector-calculator" target="_blank"><strong>Explore the docs »</strong></a>
-    <br />
     <br />
     <a href="https://devtruce.github.io/skill-injector-calculator/" target="_blank">View Demo</a>
     ·
@@ -72,7 +70,6 @@ Discord: [xzypher.]()
 [forks-link]: https://github.com/DevTruce/skill-injector-calculator/network/members
 [stars-link]: https://github.com/DevTruce/skill-injector-calculator/stargazers
 [issues-link]: https://github.com/DevTruce/skill-injector-calculator/issues
-[license-link]: https://github.com/DevTruce/skill-injector-calculator/blob/master/LICENSE.txt
 
 <!-- icons -->
 
@@ -80,7 +77,6 @@ Discord: [xzypher.]()
 [forks-icon]: https://img.shields.io/github/forks/DevTruce/skill-injector-calculator.svg?style=for-the-badge
 [stars-icon]: https://img.shields.io/github/stars/DevTruce/skill-injector-calculator.svg?style=for-the-badge
 [issues-icon]: https://img.shields.io/github/issues/DevTruce/skill-injector-calculator.svg?style=for-the-badge
-[license-icon]: https://img.shields.io/github/license/DevTruce/skill-injector-calculator.svg?style=for-the-badge
 
 <!-- ## Project ## -->
 
