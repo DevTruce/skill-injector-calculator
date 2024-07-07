@@ -8,10 +8,10 @@ const userCurrentSP = document.querySelector("#currentSP");
 const showResult = document.querySelector(".showResult");
 const closeResult = document.querySelector(".closeResult");
 const displayMessages = document.querySelector(".displayMessages");
+const displayMessagesHeader = document.querySelector(".displayMessagesHeader");
 const displayInjectorNeeds = document.querySelector(".displayInjectorNeeds");
 const displayIskNeeds = document.querySelector(".displayIskNeeds");
 const displayMessage = document.querySelector(".displayMessage");
-const displayMessagesHeader = document.querySelector(".displayMessagesHeader");
 
 //// Preset Variables
 const SKILL_POINT_MAX = 425000000;
@@ -87,23 +87,23 @@ const userInputReset = function () {
 
 const validationRules = [
   {
-    condition: (goalSP, currentSP) => goalSP <= currentSP,
+    condition: (currentSP, goalSP) => goalSP <= currentSP,
     errorMessage: "Goal SP must be greater than Current SP",
   },
   {
-    condition: (goalSP, currentSP) =>
+    condition: (currentSP, goalSP) =>
       goalSP > SKILL_POINT_MAX || currentSP > SKILL_POINT_MAX,
     errorMessage: `Max Skill Points = ${formatNumber(SKILL_POINT_MAX)}`,
   },
   {
-    condition: (goalSP, currentSP) => isNaN(goalSP) || isNaN(currentSP),
+    condition: (currentSP, goalSP) => isNaN(goalSP) || isNaN(currentSP),
     errorMessage: "Please Enter a Number",
   },
 ];
 
-const validateInput = function (goalSP, currentSP) {
+const validateInput = function (currentSP, goalSP) {
   for (const rule of validationRules) {
-    if (rule.condition(goalSP, currentSP)) {
+    if (rule.condition(currentSP, goalSP)) {
       showInvalidPopUpWindow("Invalid Input", rule.errorMessage);
       return false; // Validation failed
     }
@@ -114,6 +114,7 @@ const validateInput = function (goalSP, currentSP) {
 //// Calculate Skill Injectors and Costs From Current SP to Goal SP
 const skillInjectorCalculator = function (currentSP, goalSP) {
   let skillInjectorsNeeded = 0; // counter
+  const originalSP = currentSP; // store original SP before calculation
 
   // Function to calc skill points within a specified range
   const calculateRange = (range, injected) => {
@@ -124,25 +125,28 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
   };
 
   // Validate user inputs
-  if (!validateInput(goalSP, currentSP)) {
+  if (!validateInput(currentSP, goalSP)) {
     return;
   }
 
   // Calc skill points within a specified range
+  // 5m and under
   calculateRange(
     DIMINISHING_RETURNS.T1.spRange,
     DIMINISHING_RETURNS.T1.spInjected
   );
+  // 5m - 50m
   calculateRange(
     DIMINISHING_RETURNS.T2.spRange[1],
     DIMINISHING_RETURNS.T2.spInjected
   );
+  // 50m - 80m
   calculateRange(
     DIMINISHING_RETURNS.T3.spRange[1],
     DIMINISHING_RETURNS.T3.spInjected
   );
 
-  // Calc skill points in T4 range (80M+)
+  // Calc skill points in T4 range (80m+)
   if (currentSP >= DIMINISHING_RETURNS.T4.spRange) {
     while (currentSP < goalSP) {
       currentSP += DIMINISHING_RETURNS.T4.spInjected;
@@ -150,7 +154,7 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
     }
   }
 
-  // Calculate isk costs
+  // Calculate approximate isk costs
   const iskCost = skillInjectorsNeeded * SKILL_INJECTOR_PRICE;
 
   // Display results
@@ -168,27 +172,33 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
 // Automatically Update Result Dimensions on Window Resize
 window.addEventListener("resize", runUpdateDimensions);
 
-// Execute Skill Injector Calculator on Button Click
+// Execute Skill Injector Calculator on "Generate" Button Click
 generateTotalButton.addEventListener("click", function (e) {
-  e.stopPropagation(); // Stop the click event from propagating to the document
+  e.stopPropagation(); // prevent event propagation
+
+  // gather user input data
   const userCurrentSP_data = parseFloat(userCurrentSP.value);
   const userGoalSP_data = parseFloat(userGoalSP.value);
 
+  //execute logic & reset
   skillInjectorCalculator(userCurrentSP_data, userGoalSP_data);
   userInputReset();
 });
 
 // Reset & Close Result Window
+// close on click of close button
 closeResult.addEventListener("click", function () {
   hidePopUpWindow();
 });
 
+// close on escape key press
 document.addEventListener("keydown", function (e) {
   if (e.key === "Escape" && !showResult.classList.contains("hidden")) {
     hidePopUpWindow();
   }
 });
 
+// close on click outside of result window
 document.addEventListener("click", function (event) {
   const isClickInsideTarget = showResult.contains(event.target);
 
