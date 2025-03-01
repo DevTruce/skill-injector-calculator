@@ -1,5 +1,13 @@
 "use strict";
 
+//// Imports
+import {
+  fetchMarketValue,
+  largeSkillInjector,
+  smallSkillInjector,
+  theForge,
+} from "./fetchMarketValue.js";
+
 //// DOM Elements
 const container = document.querySelector(".container");
 const generateTotalButton = document.querySelector(".generateTotal");
@@ -13,9 +21,7 @@ const displayInjectorNeeds = document.querySelector(".displayInjectorNeeds");
 const displayIskNeeds = document.querySelector(".displayIskNeeds");
 const displayMessage = document.querySelector(".displayMessage");
 
-//// Preset Variables
 const SKILL_POINT_MAX = 425000000;
-const SKILL_INJECTOR_PRICE = 890000000; // use eve api to get price?
 const DIMINISHING_RETURNS = {
   T1: { spRange: 5000000, spInjected: 500000 }, // 5M SP-
   T2: { spRange: [5000000, 50000000], spInjected: 400000 }, // 5M - 50M SP
@@ -112,7 +118,7 @@ const validateInput = function (currentSP, goalSP) {
 };
 
 //// Calculate Skill Injectors and Costs From Current SP to Goal SP
-const skillInjectorCalculator = function (currentSP, goalSP) {
+const skillInjectorCalculator = async function (currentSP, goalSP) {
   let skillInjectorsNeeded = 0; // counter
   const originalSP = currentSP; // store original SP before calculation
 
@@ -155,7 +161,15 @@ const skillInjectorCalculator = function (currentSP, goalSP) {
   }
 
   // Calculate approximate isk costs
-  const iskCost = skillInjectorsNeeded * SKILL_INJECTOR_PRICE;
+  const LARGE_SKILL_INJECTOR_PRICE =
+    (await fetchMarketValue(theForge, largeSkillInjector, "sell")) || 897712889;
+
+  const SMALL_SKILL_INJECTOR_PRICE =
+    (await fetchMarketValue(theForge, smallSkillInjector, "sell")) || 177978723;
+
+  console.log(`Large Skill Injector Jita Sell:${LARGE_SKILL_INJECTOR_PRICE}`);
+  console.log(`Small Skill Injector Jita Sell:${SMALL_SKILL_INJECTOR_PRICE}`);
+  const iskCost = skillInjectorsNeeded * LARGE_SKILL_INJECTOR_PRICE;
 
   // Display results
   showPopUpWindow(
