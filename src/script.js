@@ -21,7 +21,7 @@ const displayInjectorNeeds = document.querySelector(".displayInjectorNeeds");
 const displayIskNeeds = document.querySelector(".displayIskNeeds");
 const displayMessage = document.querySelector(".displayMessage");
 
-const SKILL_POINT_MAX = 425000000;
+const SKILL_POINT_MAX = 625000000;
 const DIMINISHING_RETURNS = {
   T1: { spRange: 5000000, spInjected: 500000 }, // 5M SP-
   T2: { spRange: [5000000, 50000000], spInjected: 400000 }, // 5M - 50M SP
