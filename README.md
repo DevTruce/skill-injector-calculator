@@ -22,7 +22,7 @@
     Calculate the ISK cost and amount of skill injectors needed to go from current skill points to goal skill points.
     <br />
     <br />
-    <a href="https://devtruce.github.io/skill-injector-calculator/" target="_blank">View Demo</a>
+    <a href="https://devtruce.github.io/skill-injector-calculator/" target="_blank">Live Site</a>
     ·
     <a href="https://github.com/DevTruce/skill-injector-calculator/issues" target="_blank">Report Bug</a>
     ·
