@@ -11,6 +11,7 @@ import {
 //// DOM Elements
 const container = document.querySelector(".container");
 const generateTotalButton = document.querySelector(".generateTotal");
+const clearInputFieldsButton = document.querySelector(".clearInputFields");
 const userGoalSP = document.querySelector("#goalSP");
 const userCurrentSP = document.querySelector("#currentSP");
 const showResult = document.querySelector(".showResult");
@@ -114,6 +115,8 @@ const validateInput = function (currentSP, goalSP) {
       return false; // Validation failed
     }
   }
+  localStorage.setItem("goalSP", goalSP);
+  localStorage.setItem("currentSP", currentSP);
   return true; // Validation passed
 };
 
@@ -183,8 +186,32 @@ const skillInjectorCalculator = async function (currentSP, goalSP) {
 };
 
 //// Event Listeners
+// Load Local Storage Info into Input Fields
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("currentSP")) {
+    userCurrentSP.value = localStorage.getItem("currentSP");
+  }
+
+  if (localStorage.getItem("goalSP")) {
+    userGoalSP.value = localStorage.getItem("goalSP");
+  }
+});
+
 // Automatically Update Result Dimensions on Window Resize
 window.addEventListener("resize", runUpdateDimensions);
+
+// Clear Input Fields & Local Storage Information
+clearInputFieldsButton.addEventListener("click", e => {
+  e.stopPropagation();
+
+  // clear local storage info
+  localStorage.removeItem("goalSP");
+  localStorage.removeItem("currentSP");
+
+  // clear input field values
+  userCurrentSP.value = ``;
+  userGoalSP.value = ``;
+});
 
 // Execute Skill Injector Calculator on "Generate" Button Click
 generateTotalButton.addEventListener("click", function (e) {

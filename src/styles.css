@@ -99,6 +99,24 @@ body {
   scale: 1.1;
 }
 
+.clearInputFields {
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--secondaryColor);
+  width: 10rem;
+  height: 1.5rem;
+  margin: 0 auto;
+  color: var(--primaryColor);
+
+  outline: none;
+}
+.clearInputFields:hover,
+.clearInputFields:focus {
+  background-color: var(--tertiaryColor);
+  cursor: pointer;
+  scale: 1.1;
+}
+
 .showResult {
   background-color: var(--primaryColor);
   border-radius: 0.5rem;
