@@ -36,10 +36,11 @@
 
 EVE Online Skill Injector Calculator.
 
-Calculate the ISK cost and amount of skill injectors needed to go from X skill points to Y skill points. This will account for the diminishing returns 500000, 400000, 300000 & 150000 respectively as the skill points are increased along the way. The ISK cost is a preset value set at 890,000,000. I will adjust this in the future to either allow the user to input the isk cost or use the eve API if available.
+Calculate the ISK cost and amount of skill injectors needed to go from x skill points to y skill points. This will account for the diminishing returns 500000, 400000, 300000 & 150000 respectively as the skill points are increased along the way. Large Skill Injector/Small Skill Injector costs are gathered via ESI (https://esi.evetech.net/ui/).
 
 [![skill-injector-calculator][product-screenshot1]](product-link)
 [![skill-injector-calculator][product-screenshot2]](product-link)
+[![skill-injector-calculator][product-screenshot3]](product-link)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -82,6 +83,7 @@ Discord: [xzypher.]()
 
 [product-screenshot1]: src/imgs/product-screenshot1.png
 [product-screenshot2]: src/imgs/product-screenshot2.png
+[product-screenshot3]: src/imgs/product-screenshot3.png
 [product-link]: https://devtruce.github.io/skill-injector-calculator/
 
 <!-- ## Tech & Tools ## -->
