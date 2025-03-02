@@ -209,8 +209,7 @@ clearInputFieldsButton.addEventListener("click", e => {
   localStorage.removeItem("currentSP");
 
   // clear input field values
-  userCurrentSP.value = ``;
-  userGoalSP.value = ``;
+  userInputReset();
 });
 
 // Execute Skill Injector Calculator on "Generate" Button Click
@@ -223,7 +222,7 @@ generateTotalButton.addEventListener("click", function (e) {
 
   //execute logic & reset
   skillInjectorCalculator(userCurrentSP_data, userGoalSP_data);
-  userInputReset();
+  // userInputReset();
 });
 
 // Reset & Close Result Window

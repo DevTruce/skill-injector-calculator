@@ -102,11 +102,11 @@ body {
 .clearInputFields {
   border: none;
   border-radius: 0.5rem;
-  background-color: var(--secondaryColor);
+  background-color: var(--dark1);
   width: 10rem;
   height: 1.5rem;
   margin: 0 auto;
-  color: var(--primaryColor);
+  color: var(--secondaryColor);
 
   outline: none;
 }
@@ -115,6 +115,7 @@ body {
   background-color: var(--tertiaryColor);
   cursor: pointer;
   scale: 1.1;
+  color: var(--dark1);
 }
 
 .showResult {
