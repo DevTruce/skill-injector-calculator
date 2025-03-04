@@ -173,6 +173,21 @@ body {
   text-align: center;
 }
 
+.popupIconsDisplay {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  align-self: center;
+  justify-content: space-around;
+}
+
+.popupIcons {
+  /* display: block;
+  margin-top: 0.8rem; */
+  width: 30px;
+  height: 30px;
+}
+
 .cta {
   color: var(--tertiaryColor);
 }
