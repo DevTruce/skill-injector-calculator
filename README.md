@@ -58,8 +58,6 @@ Calculate the ISK cost and amount of skill injectors needed to go from x skill p
 
 Email: [DevTruce@Outlook.com]()
 
-Discord: [xzypher.]()
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- #### MARKDOWN LINKS & IMAGES #### -->
